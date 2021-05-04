@@ -1,0 +1,83 @@
+### main.xml
+
+<!-- TO DO -->
+ <TextView
+     android:id="@+id/textView2"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:text="@string/exchangerate" />
+
+ <EditText
+     android:id="@+id/etRate"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:ems="10"
+     android:inputType="numberDecimal"
+     android:text="" />
+ <TextView
+     android:id="@+id/textView3"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:text="@string/ntd" />
+
+ <EditText
+     android:id="@+id/etNTD"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:ems="10"
+     android:inputType="numberDecimal"
+     android:text="" />
+
+ <Button
+     android:id="@+id/btnCompute"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:text="@string/calc_btn" />
+ <TextView
+     android:id="@+id/tvResult"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_weight="1"
+     android:text="@string/usd_result" />
+  
+ ### GDD02.java (Activity)
+ 
+    // TO DO
+    
+    //取得UI
+    fieldExchangeRate = findViewById(R.id.etRate);
+    fieldNTD = findViewById(R.id.etNTD);
+    calcbutton = findViewById(R.id.btnCompute);
+    tvResult = findViewById(R.id.tvResult);
+    
+    //計算
+    calcbutton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        double rate = Double.parseDouble(fieldExchangeRate.getText().toString());
+        double ntd = Double.parseDouble(fieldNTD.getText().toString());
+        double usd = ntd/rate;//美金 = 台幣/匯率(多少台幣/一美元)
+        String msg = getString(R.string.usd_result)+ String.format("%.2f", usd);
+        tvResult.setText(msg);
+      }
+    });
+    
+    //取得匯率預設值
+    SharedPreferences sp = getSharedPreferences(PREF_ExchangeRate,MODE_PRIVATE);
+    String spRate = sp.getString(PREF_ExchangeRate,"");
+    fieldExchangeRate.setText(spRate);
+    
+    ....
+    protected void onPause() {
+    super.onPause();
+    SharedPreferences settings = getSharedPreferences(PREF_ExchangeRate, 0);
+    //*** 會發生Null Point 修正
+    settings.edit().putString(
+            PREF_ExchangeRate,
+            fieldExchangeRate.getText()==null?"":fieldExchangeRate.getText().toString()).commit();
+   }
