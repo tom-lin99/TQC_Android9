@@ -1,0 +1,32 @@
+--- 程式碼片段（Code Snippet）---
+
+function guessOline() {
+		
+	//網址
+	const URL = 'https://script.google.com/macros/s/AKfycbwnUUAMpW0Km6APCl2bIWvUwbChegitxFFGYbElHpdMxTsECNLg-XbI75-w-8fW2rG5/exec';
+	
+	//輸入參數
+	const name = 'TomLin';
+	const no = 'U1234';
+	var guessNum = $('#inputNum').val();
+	
+	//參數組裝
+	const parameters=`?name=${name}&no=${no}&guessNum=${guessNum}`;
+	//傳送http請求
+	fetch(URL+parameters, {method:'GET'})
+	.then(res => {
+	    return res.text();   // 使用 text() 可以得到純文字 String
+	}).then(result => {
+	    console.log(result); // 得到「{"reMsg":"INPUT 的數字 : ...」
+	    const obj = JSON.parse(result);
+	    console.log('reMsg:'+obj.reMsg);
+	    console.log('logMsg:'+obj.logMsg);
+		
+		$("#tvRespond").text(result);
+		//歷史紀錄
+		$("#guessList").append(`<li data-icon="false" ><a href="#">${obj.reMsg}</a></li>`);
+		//重新作用外觀樣式 class 
+		$('#guessList').listview('refresh');
+	});
+
+}
