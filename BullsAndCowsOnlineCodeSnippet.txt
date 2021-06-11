@@ -6,8 +6,8 @@ function guessOline() {
 	const URL = 'https://script.google.com/macros/s/AKfycbwnUUAMpW0Km6APCl2bIWvUwbChegitxFFGYbElHpdMxTsECNLg-XbI75-w-8fW2rG5/exec';
 	
 	//輸入參數
-	const name = 'TomLin';
-	const no = 'U1234';
+	const name = 'TomLin';//使用英文名、外號即可，避免個資外洩
+	const no = 'U1234';//學號
 	var guessNum = $('#inputNum').val();
 	
 	//參數組裝
